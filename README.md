@@ -18,85 +18,105 @@ An interactive travel-tracking dashboard built inside an Excel workbook. Data li
 ## Prerequisites
 
 - **Microsoft Excel** (Windows OS required for full VBA support)
-- **Python 3.x** installed and available via your PATH environment variable
-- Python packages:
-  ```bash
-  pip install xlwings folium geopandas pandas
-  ```
-- `xlwings` add-in enabled in Excel (Excel Options → Add-ins, or run `xlwings addin install`)
-- A free [GeoNames](https://www.geonames.org/login) account/username (used for city population and lat/lon lookups via their API)
-- Internet connection (for GeoNames API lookups and [flagsapi.com](https://www.flagsapi.com/) flag images)
-- The Natural Earth countries shapefile/GeoJSON (used for country choropleth shading) — see [Project Structure](#project-structure)
-
-branca
-certifi
-charset-normalizer
-folium
-geopandas
-idna
-Jinja2
-MarkupSafe
-numpy
-packaging
-pandas
-pyogrio
-pyproj
-python-dateutil
-pywin32
-requests
-shapely
-six
-tzdata
-urllib3
-xlwings
-xyzservices
+- **Python 3.x** runtime environment installed and available via your PATH environment variable
+- Package **xlwings**:
+  - `xlwings` add-in enabled in Excel (Excel Options → Add-ins, or run `xlwings addin install`)
+- Various **pip packages** according to **requirements.txt**
+- A free [GeoNames](https://www.geonames.org/login) account/username (used for population and lattitude / longitude lookups via GeoNames API)
+- A free API key for [REST countries](http://restcountries.com) (used for names lookups via REST countries API)
+- Internet connection (for API lookups)
+- The Natural Earth countries shapefile/GeoJSON (used for country choropleth shading) — included, see [Project Structure](#project-structure)
 
 ## Installation
 
-1. Clone this repository:
+1. Clone this repository:<br>
+   Clone the **travel-tracker** git repository by opening a PowerShell or Git Bash console window, navigating to a directory of your chosing and running this command:
    ```bash
-   git clone https://github.com/<your-username>/<your-repo>.git
+   git clone https://github.com/DanDanR/travel-tracker.git
    ```
-2. Open the workbook `TravelTracker.xlsm` in Excel.
-3. Enable macros / content when prompted.
-4. Update the GeoNames username inside the VBA code (or config sheet, if you add one) with your own.
-5. Make sure the Python scripts (e.g. `map_generator.py`) and any supporting data files are in the paths the VBA macros expect — adjust file paths in the VBA code if your folder layout differs.
+2. Install dependencies:<br>
+   Run the `setup.bat` script by double clicking or otherwise launching it, this might take a while as a virtual environment (or a **venv**) will be created and some pip packages are being installed.<br>
+   After script execution has finished it should show the message 
+   ```bash
+   Installation of pip packages into venv completed successfully.
+   ```
+3. Enter your credentials:<br>
+   After the setup script has finished there should be a file `credentials.txt`. Open it in a text editor and enter your username for **GeoNames** as well as your API key for **REST countries** and save the file.
+4. Enable macro execution:<br>
+   Open the workbook `TravelTracker.xlsm` in Excel and enable / trust content when prompted via popup or via banner underneath menu ribbon.
 
 ## Usage
 
-Navigate to the control sheet (e.g. `Controls` / `Dashboard Buttons`) in the workbook. It contains four buttons, each of which builds the corresponding page and opens it in your default browser:
+Open `TravelTracker_blank.xlsm` (or rename it to your liking first) and navigate to the control sheet `Build` in the workbook. It contains four buttons, each of which builds the corresponding page and opens it in your default browser:
 
 | Button | Output |
 |---|---|
 | Dashboard | Overview stats, top countries/cities, top routes, busiest years |
 | Yearly Overview | Year-by-year travel breakdown |
-| Cities & Countries Map | Interactive map with markers and choropleth shading |
-| Aviation Map | Flight route visualization |
+| Cities & Countries Map | Interactive map with markers for visited cities and higlighting for visited countries. |
+| Aviation Map | Flight route visualization of flights taken. |
 
-Each button triggers a VBA macro that calls into the Python backend via `xlwings`, regenerates the relevant HTML file, and opens it with your system's default browser.
+Each button triggers a VBA macro that calls the Python backend via `xlwings`, regenerates the relevant HTML file, and opens it in your system's default browser.
 
-## Populating Your Own Data
+### Populating Your Own Data
+#### Important Notice
 
-1. Open the main data sheet (e.g. `Data`), which contains a table (e.g. `MapData`) with columns such as:
-   - `Name` — city name
-   - `Lat` / `Lon` — coordinates
-   - `Population`
-   - `Visits`
-   - `CountryCode`
-   - `Alternative Name` — optional, e.g. native-script name for display in tooltips
+The various sheets contain custom formulas that are bound to VBA code, which makes API calls using your credentials (from `credentials.txt`). Some of these API calls are slow-performing. Re-calculating all formulas on the sheet and thusly re-running all API calls might take a long time. Also and the publically available free-to-use have daily usage limits and might block you for the rest of the day when you make too many calls (in the case that formulas no longer work, try again the next day!).<br><br>
+Therefore it is advisable, that once you made some calls, to convert the formula-based cell contents to fixed-value cell contents. A custon shortcut for that purpose is available. Simply **press F11** and the formula of any cell will be replaced with the calculated value and thusly prevent further API calls for that cell.<br><br>
+**This works on a single cell AND on multiple cells at the same time!**<br><br>
+
+#### Table Cities
+
+The sheet `Cities` contains a table with all the cities visited and specifically these columns (each entry equals one unique city, not one unique visit):
+
+| Column | Meaning |
+|---|---|
+| ISO2 | ISO2 country code — will be auto-filled once you enter a country name in the cell to the right (must be correctly spelled common name according to country list on sheet `Countries`). |
+| Country | Country's common name according to country list on sheet `Countries`. |
+| Name | City's name (commonly internationally used English name preferred). |
+| Alternative Name | Optional, e.g. local name or name in native-script. |
+| Lat / Lon | Coordinates of the city (lattitude and longitude) — will be auto-filled once you've entered country and city name. |
+| Population | City's population — will be auto-filled once you've entered country and city name. |
+| Visits | Number of past visits — will be auto-filled based on the trip list on sheet `Trips`. |
+| Home | Optional — tick the checkbox to mark a city as a city you currently or in the past live(d) or work(ed) in. That way entries for this city and its surrounding country will not be shown on the map as visits as visits to a home or work place do not make sense in the context of a travel tracker.  |
+| First Visit / Last Visit | Month and Year of the first and last visit to this city — will be auto-filled based on the trip list on sheet `Trips`. |
+
+#### Table Countries
+
+This sheet `Countries` contains a pre-populated list of most sovereign countries and partially recognized territories (such as Northern Cyprus) as well as relevant overseas territories (such as Gibraltar).<br><br>
+
+
+| Column | Meaning |
+|---|---|
+| ISO2 | TBD! |
+| Common Name |  |
+| Official Name |  |
+| Population |  |
+| Area [km²] | The country's land area in square kilometers — willbe auto-filled once an ISO2 country code has been entered |
+| Capital | The country's capital city — willbe auto-filled once an ISO2 country code has been entered |
+| Visits |  |
+| First Visit / Last Visit |  |
+| Wiki Page |  |
+| Flag |  |
+
+You can extend the table if there are some visited territories not included. 
+
+#### Table Trips
+
+
+
 2. Add one row per city you've visited. Lat/Lon and population can be looked up automatically via the GeoNames API integration if left blank (assuming your API username is configured).
 3. Fill in visit counts per city — country-level totals are aggregated automatically from city-level visits.
 4. If tracking flights, populate the flight/routes table (e.g. `Routes`) with origin/destination city pairs and dates.
 5. If using the yearly breakdown, make sure your data includes a year/date field so trips can be grouped correctly.
 6. Re-run the relevant button(s) on the control sheet to regenerate the pages with your updated data.
 
-## Project Structure
+### Project Structure
 
 ```
 travel-tracker/
 ├── TravelTracker.xlsm       # Main Excel workbook (data + VBA + control sheet)
 ├── map_generator.py         # Python script generating Folium maps
-├── build_dashboard.py       # Python script generating the dashboard page
 ├── data/
 │   └── countries.geojson    # Natural Earth admin-0 countries (for choropleth)
 └── output/
@@ -108,11 +128,7 @@ travel-tracker/
 
 > Adjust file/sheet/button names above to match your actual workbook — this is a starting template.
 
-## Notes
+### Notes
 
 - Map rendering was intentionally moved out of an embedded browser control inside Excel (due to stability issues) in favor of generating standalone HTML files opened in the system browser.
 - Country shading is computed by aggregating per-city visit counts up to the country level, joined against the Natural Earth GeoJSON via ISO country code.
-
-## License
-
-Add your preferred license here (e.g. MIT).
