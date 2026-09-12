@@ -3,6 +3,7 @@ credentials.txt
 setup_log.txt
 xlwings.conf
 *.html
+~$*.xls*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

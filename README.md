@@ -21,7 +21,7 @@ An interactive travel-tracking dashboard built inside an Excel workbook. Data li
 - **Python 3.x** runtime environment installed and available via your PATH environment variable
 - Package **xlwings**:
   - `xlwings` add-in enabled in Excel (Excel Options → Add-ins, or run `xlwings addin install`)
-- Various **pip packages** according to **requirements.txt**
+- Various **pip packages** according to `requirements.txt`
 - A free [GeoNames](https://www.geonames.org/login) account/username (used for population and lattitude / longitude lookups via GeoNames API)
 - A free API key for [REST countries](http://restcountries.com) (used for names lookups via REST countries API)
 - Internet connection (for API lookups)
@@ -59,12 +59,15 @@ Open `TravelTracker_blank.xlsm` (or rename it to your liking first) and navigate
 
 Each button triggers a VBA macro that calls the Python backend via `xlwings`, regenerates the relevant HTML file, and opens it in your system's default browser.
 
+
 ### Populating Your Own Data
+
 #### Important Notice
 
 The various sheets contain custom formulas that are bound to VBA code, which makes API calls using your credentials (from `credentials.txt`). Some of these API calls are slow-performing. Re-calculating all formulas on the sheet and thusly re-running all API calls might take a long time. Also and the publically available free-to-use have daily usage limits and might block you for the rest of the day when you make too many calls (in the case that formulas no longer work, try again the next day!).<br><br>
 Therefore it is advisable, that once you made some calls, to convert the formula-based cell contents to fixed-value cell contents. A custon shortcut for that purpose is available. Simply **press F11** and the formula of any cell will be replaced with the calculated value and thusly prevent further API calls for that cell.<br><br>
 **This works on a single cell AND on multiple cells at the same time!**<br><br>
+
 
 #### Table Cities
 
@@ -82,24 +85,27 @@ The sheet `Cities` contains a table with all the cities visited (each entry equa
 | Home | Optional — tick the checkbox to mark a city as a city you currently or in the past live(d) or work(ed) in. That way entries for this city and its surrounding country will not be shown on the map as visits as visits to a home or work place do not make sense in the context of a travel tracker.  |
 | First Visit / Last Visit | Month and Year of the first and last visit to this city — will be auto-filled based on the trip list on sheet `Trips`. |
 
+
 #### Table Countries
 
-The sheet `Countries` contains a pre-populated list of most sovereign countries and partially recognized territories (such as Western Sahara) as well as relevant overseas territories (such as Gibraltar). 
+The sheet `Countries` contains a pre-populated list of most sovereign countries and partially recognized territories (such as Western Sahara) as well as relevant overseas territories (such as Gibraltar).<br><br>
+**All columns except for `ISO2` are auto-filled!**
+
+The table comes fully populated and doesn't have to be touched at all. However, you can extend the table should there be some territories visited missing, find a complete list of all ISO alpha-2 codes here: [Officially assigned code elements](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements)
 
 | Column | Meaning |
 |---|---|
 | ISO2 | ISO alpha-2 country code |
-| Common Name |  |
-| Official Name |  |
-| Population |  |
-| Area [km²] | The country's land area in square kilometers — willbe auto-filled once an ISO alpha-2 country code has been entered |
-| Capital | The country's capital city — willbe auto-filled once an ISO alpha-2 country code has been entered |
-| Visits |  |
-| First Visit / Last Visit |  |
-| Wiki Page |  |
-| Flag |  |
+| Common Name | The country's common short-form name, e.g. `China` instead of `People's Republic of China` — will be auto-filled. |
+| Official Name | The country's long-form name, e.g `Russian Federation` instead of `Russia` — will be auto-filled. |
+| Population | The country's population. |
+| Area [km²] | The country's land area in square kilometers — will be auto-filled. |
+| Capital | The country's capital city — will be auto-filled. |
+| Visits | Unique visits to the country — will be auto-filled according to data coming from the sheet `Trips`. |
+| First Visit / Last Visit | First visit and last visit to the country — will be auto-filled according to data coming from the sheet `Trips`. |
+| Wiki Page | Link to the Wikipedia page of the country — will be auto-filled. |
+| Flag | Auto-filled — will be pulled from the internet and embedded in the cell. |
 
-You can extend the table if there are some visited territories not included, find a complete list of all ISO alpha-2 codes here: [Officially assigned code elements](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements)
 
 #### Table Trips
 
