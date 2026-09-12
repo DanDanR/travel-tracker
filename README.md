@@ -29,20 +29,21 @@ An interactive travel-tracking dashboard built inside an Excel workbook. Data li
 
 ## Installation
 
-1. Clone this repository:<br>
+1. Install latest **python runtime** if not already installed, freely available here: [Download the latest version for Windows](https://www.python.org/downloads/)
+2. Clone this repository:<br>
    Clone the **travel-tracker** git repository by opening a PowerShell or Git Bash console window, navigating to a directory of your chosing and running this command:
    ```bash
    git clone https://github.com/DanDanR/travel-tracker.git
    ```
-2. Install dependencies:<br>
+3. Install dependencies:<br>
    Run the `setup.bat` script by double clicking or otherwise launching it, this might take a while as a virtual environment (or a **venv**) will be created and some pip packages are being installed.<br>
    After script execution has finished it should show the message 
    ```bash
    Installation of pip packages into venv completed successfully.
    ```
-3. Enter your credentials:<br>
+4. Enter your credentials:<br>
    After the setup script has finished there should be a file `credentials.txt`. Open it in a text editor and enter your username for **GeoNames** as well as your API key for **REST countries** and save the file.
-4. Enable macro execution:<br>
+5. Enable macro execution:<br>
    Open the workbook `TravelTracker.xlsm` in Excel and enable / trust content when prompted via popup or via banner underneath menu ribbon.
 
 ## Usage
@@ -67,11 +68,11 @@ Therefore it is advisable, that once you made some calls, to convert the formula
 
 #### Table Cities
 
-The sheet `Cities` contains a table with all the cities visited and specifically these columns (each entry equals one unique city, not one unique visit):
+The sheet `Cities` contains a table with all the cities visited (each entry equals one unique city).
 
 | Column | Meaning |
 |---|---|
-| ISO2 | ISO2 country code — will be auto-filled once you enter a country name in the cell to the right (must be correctly spelled common name according to country list on sheet `Countries`). |
+| ISO2 | ISO alpha-2 country code — will be auto-filled once you enter a country name in the cell to the right (must be correctly spelled common name according to country list on sheet `Countries`). |
 | Country | Country's common name according to country list on sheet `Countries`. |
 | Name | City's name (commonly internationally used English name preferred). |
 | Alternative Name | Optional, e.g. local name or name in native-script. |
@@ -83,27 +84,56 @@ The sheet `Cities` contains a table with all the cities visited and specifically
 
 #### Table Countries
 
-This sheet `Countries` contains a pre-populated list of most sovereign countries and partially recognized territories (such as Northern Cyprus) as well as relevant overseas territories (such as Gibraltar).<br><br>
-
+The sheet `Countries` contains a pre-populated list of most sovereign countries and partially recognized territories (such as Western Sahara) as well as relevant overseas territories (such as Gibraltar). 
 
 | Column | Meaning |
 |---|---|
-| ISO2 | TBD! |
+| ISO2 | ISO alpha-2 country code |
 | Common Name |  |
 | Official Name |  |
 | Population |  |
-| Area [km²] | The country's land area in square kilometers — willbe auto-filled once an ISO2 country code has been entered |
-| Capital | The country's capital city — willbe auto-filled once an ISO2 country code has been entered |
+| Area [km²] | The country's land area in square kilometers — willbe auto-filled once an ISO alpha-2 country code has been entered |
+| Capital | The country's capital city — willbe auto-filled once an ISO alpha-2 country code has been entered |
 | Visits |  |
 | First Visit / Last Visit |  |
 | Wiki Page |  |
 | Flag |  |
 
-You can extend the table if there are some visited territories not included. 
+You can extend the table if there are some visited territories not included, find a complete list of all ISO alpha-2 codes here: [Officially assigned code elements](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements)
 
 #### Table Trips
 
+The sheet `Trips` is the place where the visits and their details are specified. This table is the basis for calculations in various other sheets.<br> **Each row contains one city, NOT one trip!**
 
+| Column | Meaning |
+|---|---|
+| Year | Year the trip took place. |
+| Month | Month the trip took place (decimal). |
+| Date | Will be auto-filled once Year and Month columns contain values, generates date strings and will for instance turn `2025` + `2` into `Feb 2025`. |
+| Trip Name | Optional — for your convenience only, name trips as you like, trip names will not show up on any map or dahsboard. |
+| Country | Common name of the country the trip included according to country list on sheet `Countries`. |
+| City | Name of the city the trip included according to the city's definition on sheet `Cities`. |
+| Comment | Optional — for your convenience only, will not show up on any map or dashboard. |
+
+
+#### Table By Year
+
+The sheet `By Year` is the basis for the pages `Dashboard` as well as `Visits By Years`.<br>
+Here you only need to define what years to track, the entire rest will be auto-filled according to the data coming from other sheets.
+
+| Column | Meaning |
+|---|---|
+| Year | Year to track — define yourself. |
+| # Countries | Number of countries visited during that year — will be auto-filled. |
+| # New Countries | Number of countries visited for the first time during that year — will be auto-filled. |
+| Countries | List of countries visited that year — will be auto-filled. |
+| New Countries | List of countries visited for the first time during that year — will be auto-filled. |
+
+#### Table Airports
+
+#### Table Flights
+
+#### Table Airlines
 
 2. Add one row per city you've visited. Lat/Lon and population can be looked up automatically via the GeoNames API integration if left blank (assuming your API username is configured).
 3. Fill in visit counts per city — country-level totals are aggregated automatically from city-level visits.
