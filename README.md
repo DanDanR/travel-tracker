@@ -4,7 +4,7 @@ An Excel data store &amp; python backend based tool for displaying past travels 
 
 ## Synopsis
 
-An interactive travel-tracking dashboard built inside an Excel workbook. Data lives in native Excel tables; a VBA layer hands the data off to a Python backend (using `xlwings` and `Folium`) which renders a set of interactive HTML pages — a dashboard, a yearly overview, a cities & countries map, and an aviation (flight routes) map — opened in your system's default browser.
+An interactive travel-tracking dashboard built inside an Excel workbook. Data lives in native Excel tables; a VBA layer hands the data off to a Python backend (using **xlwings** and **Folium**) which renders a set of interactive HTML pages — a dashboard, a yearly overview, a cities & countries map, and an aviation (flight routes) map — opened in your system's default browser.
 
 ## Features
 
@@ -12,7 +12,7 @@ An interactive travel-tracking dashboard built inside an Excel workbook. Data li
 - **Yearly Overview** — year-by-year breakdown of countries visited and new countries added
 - **Cities & Countries Map** — Folium map with city markers (population-scaled) and country-level choropleth shading based on visit counts
 - **Aviation Map** — visualization of flight routes between visited locations
-- Country flags and outlines rendered both inside Excel (via `=IMAGE()`) and inside map tooltips/popups
+- Country flags and outlines rendered both inside Excel and inside map tooltips/popups
 - One-click generation: a control sheet with four buttons builds and launches each page in your browser
 
 ## Prerequisites
@@ -137,9 +137,35 @@ Here you only need to define what years to track, the entire rest will be auto-f
 
 #### Table Airports
 
+The sheet `Airports` holds all airports you've ever flown in or out of. One row equals one airport.<br>
+**All columns except for `IATA Code` are auto-filled!**
+
+| Column | Meaning |
+|---|---|
+| City | Name of the main city the airport is serving — will be auto-filled. |
+| Full Name | The airport's full name including eponym / toponym, will be auto-filled. |
+| ISO2 | ISO alpha-2 code of thecountry hosting the aiport — will be auto-filled. |
+| IATA Code | The airport's IATA airport code, has to be manually entered. See here for reference: [List of airports](https://en.wikipedia.org/wiki/Lists_of_airports#By_IATA_code) |
+| Lat / Lon | Coordinates of the airport (lattitude and longitude) — will be auto-filled. |
+| Dpertures | Number of departing flights taken from this airport, based on data coming from the `Flights` sheet. |
+| Arrivals | Number of arriving flights taken to this airport, based on data coming from the `Flights` sheet. |
+| Wiki Page | Link to the airport's Wikipedia page — will be auto-filled. |
+
+
 #### Table Flights
 
+
+| Column | Meaning |
+|---|---|
+|  |  |
+
 #### Table Airlines
+
+
+| Column | Meaning |
+|---|---|
+|  |  |
+
 
 2. Add one row per city you've visited. Lat/Lon and population can be looked up automatically via the GeoNames API integration if left blank (assuming your API username is configured).
 3. Fill in visit counts per city — country-level totals are aggregated automatically from city-level visits.
