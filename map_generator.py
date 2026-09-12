@@ -54,10 +54,10 @@ DASHBOARD_TOP_SLICE = 5
 ARRIVAL_EMOJI = "🛬"
 DEPARTURE_EMOJI = "🛫"
 
-CITY_COUNTRY_HTML = "cities&countries-map.html"
+CITY_COUNTRY_HTML = "travel-map.html"
 AVIATION_HTML = "aviation-map.html"
-DASHBOARD_HTML = "dashboard.html"
-BY_YEAR_HTML = "by-years.html"
+DASHBOARD_HTML = "travel-dashboard.html"
+BY_YEAR_HTML = "yearly-overview.html"
 POI_HTML = "POIs.html"
 COUNTRIES_GEOJSON = "world-countries-50m.json"
 COUNTRIES_SHAPEFILE = "ne_50m_admin_0_countries.shp"
@@ -65,6 +65,7 @@ COUNTRIES_SHAPEFILE = "ne_50m_admin_0_countries.shp"
 _geod = Geod(ellps="WGS84")
 
 _base_path = ""
+_output_dir = ""
 _workbook_name = ""
 _google_api_session_token = ""
 
@@ -146,20 +147,37 @@ def build_poi_map(open_browser=True, lang_code="en"):
     _add_country_tooltips(fmap, poi_df, geojson_data, _get_exclusion_countries())
     _add_poi_markers(fmap, poi_df)
     
-    _save_to_html(fmap, POI_HTML)
+    _save_map_to_html(fmap, POI_HTML)
 
 #endregion
 
 #region helper functions
 
 def _set_paths(wb):
-    global _workbook_name, _base_path
+    global _workbook_name, _base_path,_output_dir
 
     _workbook_name = wb.name.rsplit(".", 1)[0]
     _base_path = wb.fullname.rsplit("\\", 1)[0]
+    _output_dir = os.path.join(_base_path, "output")
 
-def _save_to_html(fmap, filename, launch_browser = True):
-    output = os.path.join(_base_path, f"{_workbook_name}_{filename}")
+def _save_dashboard_to_html(html, filename, launch_browser = True):
+    if not os.path.exists(_output_dir):
+        os.makedirs(_output_dir)
+
+    output = os.path.join(_output_dir, f"{_workbook_name}_{filename}")
+    
+    with open(output, "w", encoding="utf-8") as f:
+        f.write(html)
+    
+    if launch_browser:
+        # Open in default browser (Windows)
+        os.startfile(output)
+
+def _save_map_to_html(fmap, filename, launch_browser = True):
+    if not os.path.exists(_output_dir):
+        os.makedirs(_output_dir)
+
+    output = os.path.join(_base_path, f"aaa")
     os.makedirs(os.path.dirname(output), exist_ok=True)
     fmap.save(output)
     
@@ -1088,7 +1106,7 @@ def build_cities_countries_map(open_browser=False, lang_code="en"):
     _add_country_tooltips(fmap, country_df, geojson_data, _get_exclusion_countries())
     _add_city_markers(fmap, city_df)
 
-    _save_to_html(fmap, CITY_COUNTRY_HTML)
+    _save_map_to_html(fmap, CITY_COUNTRY_HTML)
 
 def build_aviation_map(open_browser=False, lang_code="en"):
     wb = xw.Book.caller()
@@ -1109,7 +1127,7 @@ def build_aviation_map(open_browser=False, lang_code="en"):
     _add_airport_markers(fmap, filtered_airport_df)
     _add_flight_routes(fmap, flights_df, filtered_airport_df, airlines_df)
 
-    _save_to_html(fmap, AVIATION_HTML)
+    _save_map_to_html(fmap, AVIATION_HTML)
 
 def build_dashboard(open_browser=True):
     wb = xw.Book.caller()
@@ -1143,22 +1161,8 @@ def build_dashboard(open_browser=True):
     top_years_by_countries = year_df.sort_values("# Countries", ascending=False).head(DASHBOARD_TOP_SLICE)
     top_years_by_new = year_df.sort_values("# New Countries", ascending=False).head(DASHBOARD_TOP_SLICE)
 
-    dashboard_html = _render_dashboard_html(
-        stats, 
-        top_countries, 
-        top_cities, 
-        top_routes, 
-        top_years_by_countries, 
-        top_years_by_new,
-        all_countries_df
-    )
-    output = os.path.join(_base_path, f"{_workbook_name}_{DASHBOARD_HTML}")
-
-    with open(output, "w", encoding="utf-8") as f:
-        f.write(dashboard_html)
-
-    if open_browser:
-        os.startfile(output)
+    dashboard_html = _render_dashboard_html(stats, top_countries, top_cities, top_routes, top_years_by_countries, top_years_by_new, all_countries_df)
+    _save_dashboard_to_html(dashboard_html, DASHBOARD_HTML)
 
 def build_years_page(open_browser=True):
     wb = xw.Book.caller()
@@ -1168,13 +1172,7 @@ def build_years_page(open_browser=True):
     country_df = _read_country_table(wb)
 
     years_html = _render_years_html(year_df, country_df)
-    output = os.path.join(_base_path, f"{_workbook_name}_{BY_YEAR_HTML}")
-
-    with open(output, "w", encoding="utf-8") as f:
-        f.write(years_html)
-
-    if open_browser:
-        os.startfile(output)
+    _save_dashboard_to_html(years_html, BY_YEAR_HTML)
 
 #endregion
 

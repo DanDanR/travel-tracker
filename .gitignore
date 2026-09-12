@@ -1,4 +1,5 @@
-# generated files
+# generated
+output/
 credentials.txt
 setup_log.txt
 xlwings.conf

@@ -65,8 +65,9 @@ Each button triggers a VBA macro that calls the Python backend via `xlwings`, re
 #### Important Notice
 
 The various sheets contain custom formulas that are bound to VBA code, which makes API calls using your credentials (from `credentials.txt`). Some of these API calls are slow-performing. Re-calculating all formulas on the sheet and thusly re-running all API calls might take a long time. Also and the publically available free-to-use have daily usage limits and might block you for the rest of the day when you make too many calls (in the case that formulas no longer work, try again the next day!).<br><br>
-Therefore it is advisable, that once you made some calls, to convert the formula-based cell contents to fixed-value cell contents. A custon shortcut for that purpose is available. Simply **press F11** and the formula of any cell will be replaced with the calculated value and thusly prevent further API calls for that cell.<br><br>
-**This works on a single cell AND on multiple cells at the same time!**<br><br>
+Therefore it is advisable, that once you made some calls, to convert the formula-based cell contents to fixed-value cell contents. A custon shortcut for that purpose is available. Simply **press F11** and the formula of any cell will be replaced with the calculated value and thusly prevent further API calls for that cell.<br>
+
+*This works on a single cell AND on multiple cells at the same time!*<br><br>
 
 
 #### Table Cities
@@ -79,47 +80,54 @@ The sheet `Cities` contains a table with all the cities visited (each entry equa
 | Country | Country's common name according to country list on sheet `Countries`. |
 | Name | City's name (commonly internationally used English name preferred). |
 | Alternative Name | Optional, e.g. local name or name in native-script. |
-| Lat / Lon | Coordinates of the city (lattitude and longitude) — will be auto-filled once you've entered country and city name. |
-| Population | City's population — will be auto-filled once you've entered country and city name. |
-| Visits | Number of past visits — will be auto-filled based on the trip list on sheet `Trips`. |
+| Lat (\*) / Lon (*) | Coordinates of the city (lattitude and longitude). |
+| Population (*) | The city's population. |
+| Visits (*) | Number of past visits — will be auto-filled based on the trip list on sheet `Trips`. |
 | Home | Optional — tick the checkbox to mark a city as a city you currently or in the past live(d) or work(ed) in. That way entries for this city and its surrounding country will not be shown on the map as visits as visits to a home or work place do not make sense in the context of a travel tracker.  |
-| First Visit / Last Visit | Month and Year of the first and last visit to this city — will be auto-filled based on the trip list on sheet `Trips`. |
+| First Visit (\*) / Last Visit (*) | Month and Year of the first and last visit to this city — will be auto-filled based on the trip list on sheet `Trips`. |
 
 
 #### Table Countries
 
-The sheet `Countries` contains a pre-populated list of most sovereign countries and partially recognized territories (such as Western Sahara) as well as relevant overseas territories (such as Gibraltar).<br><br>
-**All columns except for `ISO2` are auto-filled!**
+The sheet `Countries` contains a pre-populated list of most sovereign countries and partially recognized territories (such as Western Sahara) as well as relevant overseas territories (such as Gibraltar).<br>
+
+*All columns except for `ISO2` are auto-filled!*
 
 The table comes fully populated and doesn't have to be touched at all. However, you can extend the table should there be some territories visited missing, find a complete list of all ISO alpha-2 codes here: [Officially assigned code elements](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements)
 
 | Column | Meaning |
 |---|---|
 | ISO2 | ISO alpha-2 country code |
-| Common Name | The country's common short-form name, e.g. `China` instead of `People's Republic of China` — will be auto-filled. |
-| Official Name | The country's long-form name, e.g `Russian Federation` instead of `Russia` — will be auto-filled. |
-| Population | The country's population. |
-| Area [km²] | The country's land area in square kilometers — will be auto-filled. |
-| Capital | The country's capital city — will be auto-filled. |
-| Visits | Unique visits to the country — will be auto-filled according to data coming from the sheet `Trips`. |
-| First Visit / Last Visit | First visit and last visit to the country — will be auto-filled according to data coming from the sheet `Trips`. |
-| Wiki Page | Link to the Wikipedia page of the country — will be auto-filled. |
-| Flag | Auto-filled — will be pulled from the internet and embedded in the cell. |
+| Common Name (*) | The country's common short-form name, e.g. `China` instead of `People's Republic of China`. |
+| Official Name (*) | The country's long-form name, e.g `Russian Federation` instead of `Russia`. |
+| Population (*) | The country's population. |
+| Area [km²] (*) | The country's land area in square kilometers. |
+| Capital (*) | The country's capital city. |
+| Visits (*) | Unique visits to the country — will be auto-filled according to data coming from the sheet `Trips`. |
+| First Visit (\*) / Last Visit (*) | First visit and last visit to the country — will be auto-filled according to data coming from the sheet `Trips`. |
+| Wiki Page (*) | Link to the Wikipedia page of the country. |
+| Flag (*) | Auto-filled — will be pulled from the internet and embedded in the cell. |
+
+**Note:** (*) = auto-filled columns
 
 
 #### Table Trips
 
-The sheet `Trips` is the place where the visits and their details are specified. This table is the basis for calculations in various other sheets.<br> **Each row contains one city, NOT one trip!**
+The sheet `Trips` is the place where the visits and their details are specified. This table is the basis for calculations in various other sheets.<br>
+
+*Each row contains one city, NOT one trip!*
 
 | Column | Meaning |
 |---|---|
 | Year | Year the trip took place. |
 | Month | Month the trip took place (decimal). |
-| Date | Will be auto-filled once Year and Month columns contain values, generates date strings and will for instance turn `2025` + `2` into `Feb 2025`. |
+| Date (*) | Will be auto-filled once Year and Month columns contain values, generates date strings and will for instance turn `2025` + `2` into `Feb 2025`. |
 | Trip Name | Optional — for your convenience only, name trips as you like, trip names will not show up on any map or dahsboard. |
 | Country | Common name of the country the trip included according to country list on sheet `Countries`. |
 | City | Name of the city the trip included according to the city's definition on sheet `Cities`. |
 | Comment | Optional — for your convenience only, will not show up on any map or dashboard. |
+
+**Note:** (*) = auto-filled columns
 
 
 #### Table By Year
@@ -130,26 +138,32 @@ Here you only need to define what years to track, the entire rest will be auto-f
 | Column | Meaning |
 |---|---|
 | Year | Year to track — define yourself. |
-| # Countries | Number of countries visited during that year — will be auto-filled. |
-| # New Countries | Number of countries visited for the first time during that year — will be auto-filled. |
-| Countries | List of countries visited that year — will be auto-filled. |
-| New Countries | List of countries visited for the first time during that year — will be auto-filled. |
+| # Countries (*) | Number of countries visited during that year. |
+| # New Countries (*) | Number of countries visited for the first time during that year. |
+| Countries (*) | List of countries visited that year. |
+| New Countries (*) | List of countries visited for the first time during that year. |
+
+**Note:** (*) = auto-filled columns
+
 
 #### Table Airports
 
 The sheet `Airports` holds all airports you've ever flown in or out of. One row equals one airport.<br>
-**All columns except for `IATA Code` are auto-filled!**
+
+*All columns except for `IATA Code` are auto-filled!*
 
 | Column | Meaning |
 |---|---|
-| City | Name of the main city the airport is serving — will be auto-filled. |
-| Full Name | The airport's full name including eponym / toponym, will be auto-filled. |
-| ISO2 | ISO alpha-2 code of thecountry hosting the aiport — will be auto-filled. |
+| City (*) | Name of the main city the airport is serving. |
+| Full Name (*) | The airport's full name including eponym / toponym. |
+| ISO2 (*) | ISO alpha-2 code of the country hosting the aiport. |
 | IATA Code | The airport's IATA airport code, has to be manually entered. See here for reference: [List of airports](https://en.wikipedia.org/wiki/Lists_of_airports#By_IATA_code) |
-| Lat / Lon | Coordinates of the airport (lattitude and longitude) — will be auto-filled. |
-| Dpertures | Number of departing flights taken from this airport, based on data coming from the `Flights` sheet. |
-| Arrivals | Number of arriving flights taken to this airport, based on data coming from the `Flights` sheet. |
-| Wiki Page | Link to the airport's Wikipedia page — will be auto-filled. |
+| Lat (\*) / Lon (*) | Coordinates of the airport (lattitude and longitude). |
+| Departures (*) | Number of departing flights taken from this airport, will be auto-filled based on data coming from the `Flights` sheet. |
+| Arrivals (*) | Number of arriving flights taken to this airport, will be auto-filled based on data coming from the `Flights` sheet. |
+| Wiki Page (*) | Link to the airport's Wikipedia page. |
+
+**Note:** (*) = auto-filled columns
 
 
 #### Table Flights
@@ -157,38 +171,56 @@ The sheet `Airports` holds all airports you've ever flown in or out of. One row 
 
 | Column | Meaning |
 |---|---|
-|  |  |
+| Date |  |
+| Year |  |
+| Month |  |
+| Origin IATA |  |
+| Destination IATA |  |
+| Origin City |  |
+| Destination City |  |
+| Origin Country |  |
+| Destination Country |  |
+| Airline |  |
+| ICAO |  |
+| Trip Name |  |
 
 #### Table Airlines
 
 
 | Column | Meaning |
 |---|---|
-|  |  |
+| IATA |  |
+| ICAO |  |
+| Name |  |
+| Country |  |
+| Main Hub |  |
+| Logo URL |  |
 
 
-2. Add one row per city you've visited. Lat/Lon and population can be looked up automatically via the GeoNames API integration if left blank (assuming your API username is configured).
-3. Fill in visit counts per city — country-level totals are aggregated automatically from city-level visits.
-4. If tracking flights, populate the flight/routes table (e.g. `Routes`) with origin/destination city pairs and dates.
+++++++++++++++++++++++++++++++++++
+
 5. If using the yearly breakdown, make sure your data includes a year/date field so trips can be grouped correctly.
 6. Re-run the relevant button(s) on the control sheet to regenerate the pages with your updated data.
+
+++++++++++++++++++++++++++++++++++
+
 
 ### Project Structure
 
 ```
 travel-tracker/
-├── TravelTracker.xlsm       # Main Excel workbook (data + VBA + control sheet)
-├── map_generator.py         # Python script generating Folium maps
+├── TravelTracker_blank.xlsm   # Main Excel workbook (data + VBA + control sheet)
+├── TravelTracker_demo.xlsm    # 
+├── map_generator.py           # Python script generating Folium maps
 ├── data/
-│   └── countries.geojson    # Natural Earth admin-0 countries (for choropleth)
+│   └── countries.geojson      # Natural Earth admin-0 countries (for choropleth)
 └── output/
-    ├── dashboard.html
+    ├── travel-dashboard.html
     ├── yearly_overview.html
-    ├── map.html
-    └── aviation_map.html
+    ├── travel-map.html
+    └── aviation-map.html
 ```
 
-> Adjust file/sheet/button names above to match your actual workbook — this is a starting template.
 
 ### Notes
 
