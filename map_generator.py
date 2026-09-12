@@ -177,7 +177,7 @@ def _save_map_to_html(fmap, filename, launch_browser = True):
     if not os.path.exists(_output_dir):
         os.makedirs(_output_dir)
 
-    output = os.path.join(_base_path, f"aaa")
+    output = os.path.join(_output_dir, f"{_workbook_name}_{filename}")
     os.makedirs(os.path.dirname(output), exist_ok=True)
     fmap.save(output)
     
