@@ -121,7 +121,7 @@ The sheet `Trips` is the place where the visits and their details are specified.
 |---|---|
 | Year | Year the trip took place. |
 | Month | Month the trip took place (decimal). |
-| Date (*) | Will be auto-filled once Year and Month columns contain values, generates date strings and will for instance turn `2025` + `2` into `Feb 2025`. |
+| Date (*) | Calculated from the values of `Year` and `Month` columns, generates date strings and will for instance turn `2025` + `2` into `Feb 2025`. |
 | Trip Name | Optional — for your convenience only, name trips as you like, trip names will not show up on any map or dahsboard. |
 | Country | Common name of the country the trip included according to country list on sheet `Countries`. |
 | City | Name of the city the trip included according to the city's definition on sheet `Cities`. |
@@ -168,34 +168,42 @@ The sheet `Airports` holds all airports you've ever flown in or out of. One row 
 
 #### Table Flights
 
+The sheet `Flights` contains a list of all past flights taken and is the basis for the aviation map.
 
 | Column | Meaning |
 |---|---|
-| Date |  |
-| Year |  |
-| Month |  |
-| Origin IATA |  |
-| Destination IATA |  |
-| Origin City |  |
-| Destination City |  |
-| Origin Country |  |
-| Destination Country |  |
-| Airline |  |
-| ICAO |  |
-| Trip Name |  |
+| Date (*) | Calculated from the values of `Year` and `Month` columns, generates date strings and will for instance turn `2025` + `2` into `Feb 2025`. |
+| Year | Year the flight took place. |
+| Month | Month the flight took place. |
+| Origin IATA | IATA airport code of the origin airport. |
+| Destination IATA | IATA airport code of the destination airport. |
+| Origin City (*) | Main city served by the origin airport. |
+| Destination City (*) | Main city served by the destination airport. |
+| Origin Country (*) | Common name of host country of the origin airport according to `Countries` table. |
+| Destination Country (*) | Common name of host country of the destination airport according to `Countries` table. |
+| Airline | Name of the airline operating the flight. |
+| ICAO (*) | ICAO airline code of the airline operating the flight — will be auto-filled if the airline's name is listed in the `Airlines` table. |
+| Trip Name | Optional — name of the trip as part of which the flight took place. |
+
+**Note:** (*) = auto-filled columns
+
 
 #### Table Airlines
 
+The sheet `Airlines` contains information about airlines operating past flights taken. 
+
+*As of now, all columns have to be filled manually.*
 
 | Column | Meaning |
 |---|---|
-| IATA |  |
-| ICAO |  |
-| Name |  |
-| Country |  |
-| Main Hub |  |
-| Logo URL |  |
+| IATA | Two-letter IATA airline code of the airline. |
+| ICAO | Three-letter ICAO airline code of the airline. |
+| Name | Name of the airline. |
+| Country | Country the airline is based in. |
+| Main Hub | Main hub of the airline. |
+| Logo URL | URL of the airline's corporate logo, will be displayed when hovering over flight route in aviation map. |
 
+**Note:** (*) = auto-filled columns
 
 ++++++++++++++++++++++++++++++++++
 
