@@ -433,9 +433,12 @@ def _add_country_choropleth(fmap, country_df, geojson_data, exclusion_countries)
         color_scale_df["Visits"].min(), color_scale_df["Visits"].max()
     )
 
+    filtered_df = country_df[country_df["Visits"] > 0]
+
     choropleth = folium.Choropleth(
         geo_data=geojson_data,
-        data=country_df,
+        #data=country_df,
+        data=filtered_df,
         columns=["ISO2", "Visits"],
         key_on="feature.properties.ISO_A2",
         fill_color="YlOrRd",
@@ -447,7 +450,8 @@ def _add_country_choropleth(fmap, country_df, geojson_data, exclusion_countries)
         highlight=True
     ).add_to(fmap)
 
-    value_by_iso2 = dict(zip(country_df["ISO2"], country_df["Visits"]))
+    #value_by_iso2 = dict(zip(country_df["ISO2"], country_df["Visits"]))
+    value_by_iso2 = dict(zip(filtered_df["ISO2"], filtered_df["Visits"]))
 
     def country_style_function(feature):
         iso2 = feature['properties'].get('ISO_A2')
