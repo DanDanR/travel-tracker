@@ -2,6 +2,12 @@
 
 An Excel data store &amp; python backend based tool for displaying past travels such as cities &amp; countries visited, flight routes taken, etc. in interactive maps and dashboards.
 
+Maps             |  Dashboards
+:-------------------------:|:-------------------------:
+![cities & countries map - zoomed out](img/map-world-zo.png)  |  ![travel dashboard](img/dashboard-travel.png)
+![aviation map - zoomed out](img/map-aviation-zo.png)  |  ![yearly overview](img/dashboard-yearly-overview.png)
+
+
 ## Synopsis
 
 An interactive travel-tracking dashboard built inside an Excel workbook. Data lives in native Excel tables; a VBA layer hands the data off to a Python backend (using **xlwings** and **Folium**) which renders a set of interactive HTML pages — a dashboard, a yearly overview, a cities & countries map, and an aviation (flight routes) map — opened in your system's default browser.
