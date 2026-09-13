@@ -59,6 +59,13 @@ Open `TravelTracker_blank.xlsm` (or rename it to your liking first) and navigate
 
 Each button triggers a VBA macro that calls the Python backend via `xlwings`, regenerates the relevant HTML file, and opens it in your system's default browser.
 
+If using the yearly overview, make sure your data includes entries for year and month so trips can be grouped correctly.
+
+Re-run the relevant button(s) on the control sheet to regenerate the pages after your data has been updated.
+
+**Note:** The language selection dropdown only translates the maps (both travel map and aviation map). As of now only English and Chinese are supported!
+
+**Note:** Depending on the volume of your data, (re-)creating the maps might take quite some time, possibly in excess of 5 minutes.
 
 ### Populating Your Own Data
 
@@ -205,28 +212,28 @@ The sheet `Airlines` contains information about airlines operating past flights 
 
 **Note:** (*) = auto-filled columns
 
-++++++++++++++++++++++++++++++++++
-
-5. If using the yearly breakdown, make sure your data includes a year/date field so trips can be grouped correctly.
-6. Re-run the relevant button(s) on the control sheet to regenerate the pages with your updated data.
-
-++++++++++++++++++++++++++++++++++
-
 
 ### Project Structure
 
 ```
 travel-tracker/
-├── TravelTracker_blank.xlsm   # Main Excel workbook (data + VBA + control sheet)
-├── TravelTracker_demo.xlsm    # 
-├── map_generator.py           # Python script generating Folium maps
-├── data/
-│   └── countries.geojson      # Natural Earth admin-0 countries (for choropleth)
-└── output/
+├── credentials.txt              # credentials store for your API credentials
+├── TravelTracker_blank.xlsm     # Excel workbook for storing data (empty)
+├── TravelTracker_demo.xlsm      # Excel workbook for storing data (real-life sample data)
+├── map_generator.py             # Python script generating html pages
+├── README.md                    # readme file with instructions
+├── requirements.txt             # list of required pip packages to be installed
+├── setup.bat                    # setup script for Windows only!
+├── world-airports.json          # Natural Earth airport data
+├── world-countries.json         # Natural Earth country data
+├── world-countries-50m.json     # Natural Earth country data
+└── output/                      # output folder where generated html pages go
     ├── travel-dashboard.html
     ├── yearly_overview.html
     ├── travel-map.html
     └── aviation-map.html
+└── venv/                        # virtual Python runtime environment with required dependencies installed 
+    ├── (...)
 ```
 
 
