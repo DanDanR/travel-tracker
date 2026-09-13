@@ -3,8 +3,8 @@ Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} MapForm
    Caption         =   "UserForm1"
    ClientHeight    =   7320
    ClientLeft      =   180
-   ClientTop       =   710
-   ClientWidth     =   10060
+   ClientTop       =   705
+   ClientWidth     =   10065
    OleObjectBlob   =   "MapForm.frx":0000
    StartUpPosition =   1  'Fenstermitte
 End

@@ -98,8 +98,6 @@ The sheet `Cities` contains a table with all the cities visited (each entry equa
 
 The sheet `Countries` contains a pre-populated list of most sovereign countries and partially recognized territories (such as Western Sahara) as well as relevant overseas territories (such as Gibraltar).<br>
 
-*All columns except for `ISO2` are auto-filled!*
-
 The table comes fully populated and doesn't have to be touched at all. However, you can extend the table should there be some territories visited missing, find a complete list of all ISO alpha-2 codes here: [Officially assigned code elements](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements)
 
 | Column | Meaning |
@@ -227,11 +225,15 @@ travel-tracker/
 ├── world-airports.json          # Natural Earth airport data
 ├── world-countries.json         # Natural Earth country data
 ├── world-countries-50m.json     # Natural Earth country data
+└── img                          # screenshots of the application
+    ├── (...)
 └── output/                      # output folder where generated html pages go
     ├── travel-dashboard.html
     ├── yearly_overview.html
     ├── travel-map.html
     └── aviation-map.html
+└── vba-backup                   # vba code files extracted from within the main xlsm file
+    ├── (...)
 └── venv/                        # virtual Python runtime environment with required dependencies installed 
     ├── (...)
 ```
@@ -239,5 +241,5 @@ travel-tracker/
 
 ### Notes
 
-- Map rendering was intentionally moved out of an embedded browser control inside Excel (due to stability issues) in favor of generating standalone HTML files opened in the system browser.
+- Map rendering was intentionally moved out of an embedded browser control inside Excel (due to stability issues) in favor of generating fully independent and standalone HTML files opened in the system browser.
 - Country shading is computed by aggregating per-city visit counts up to the country level, joined against the Natural Earth GeoJSON via ISO country code.

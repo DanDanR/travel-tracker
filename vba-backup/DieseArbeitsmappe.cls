@@ -8,11 +8,18 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = True
 Public credentials As Object
+Public langCode As String
 
 Private Sub Workbook_Open()
     Application.OnKey "{F11}", "ConvertCalculation2StaticVal"
     Application.OnKey "{F12}", "ReCalculateCurrentCell"
     Set credentials = LoadCredentials(ThisWorkbook.Path & "\credentials.txt")
+    With Sheets("Build").Shapes("LangCodeDropdown")
+        .ControlFormat.RemoveAllItems
+        .ControlFormat.AddItem "English"
+        .ControlFormat.AddItem "Chinese"
+        .ControlFormat.ListIndex = 1
+    End With
     'Call SetPythonInterpreter
 End Sub
 

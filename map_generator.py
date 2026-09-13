@@ -334,7 +334,11 @@ def _get_exclusion_countries():
     elif isinstance(raw, str):
         exclusion_countries = {raw}
     else:
-        exclusion_countries = set(raw)
+        try:
+            if len(raw) > 1:
+                exclusion_countries = set(raw)
+        except:
+            exclusion_countries = set()
 
     return exclusion_countries
 

@@ -62,7 +62,7 @@ Public Function GetCountryArea(countryCode As String) As Variant
     If IsError(jsonText) Then
         GetCountryArea = jsonText
     Else
-        GetCountryArea = ExtractJsonNumber(jsonText, "areaInSqKm")
+        GetCountryArea = ExtractJsonNumber(jsonText, "areaInSqKm", True)
     End If
 End Function
 
@@ -232,3 +232,26 @@ Private Function ExtractJsonString(jsonText As Variant, fieldName As String) As 
 
     ExtractJsonString = Mid(jsonText, posStart, posEnd - posStart)
 End Function
+
+Public Function GetLangSelection() As String
+    Dim langCode, selectedLang As String
+    Dim dropdown As ControlFormat
+    Set dropdown = Sheets("Build").Shapes("LangCodeDropdown").ControlFormat
+    
+    selectedLang = dropdown.List(dropdown.ListIndex)
+    
+    Select Case selectedLang
+    Case "English":
+        langCode = "en"
+    Case "Chinese":
+        langCode = "zh"
+    Case Else:
+        langCode = ""
+    End Select
+    
+    GetLangSelection = langCode
+End Function
+
+Public Sub DropdownChanged()
+On Error Resume Next
+End Sub

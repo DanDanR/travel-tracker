@@ -1,6 +1,5 @@
 Attribute VB_Name = "MapMacros"
 Option Explicit
-Const LANG_CODE = "zh"
 
 Public Sub RunMapGenerator(functionName As String, openBrowser As Boolean, Optional langCode As String = "")
     Dim pyBool As String
@@ -25,10 +24,10 @@ Public Sub ShowCitiesCountriesMap(Optional showInBrowser As Boolean = True)
 
     Application.Cursor = xlWait
     Application.StatusBar = "Rebuilding map..."
-
+    
     On Error GoTo ErrHandler
     
-    Call RunMapGenerator("build_cities_countries_map", showInBrowser, LANG_CODE)
+    Call RunMapGenerator("build_cities_countries_map", showInBrowser, GetLangSelection())
     If showInBrowser = False Then
         ShowMapForm
     End If
@@ -77,7 +76,7 @@ Private Sub ShowAviationMap(Optional showInBrowser As Boolean = True)
 
     On Error GoTo ErrHandler
 
-    Call RunMapGenerator("build_aviation_map", showInBrowser, LANG_CODE)
+    Call RunMapGenerator("build_aviation_map", showInBrowser, GetLangSelection())
     If showInBrowser = False Then
         ShowMapForm
     End If
