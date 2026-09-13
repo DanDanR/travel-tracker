@@ -48,7 +48,9 @@ An interactive travel-tracking dashboard built inside an Excel workbook. Data li
 
 ## Usage
 
-Open `TravelTracker_blank.xlsm` (or rename it to your liking first) and navigate to the control sheet `Build` in the workbook. It contains four buttons, each of which builds the corresponding page and opens it in your default browser:
+Open `TravelTracker_blank.xlsm` (or rename it to your liking first) and navigate to the control sheet `Build` in the workbook. It contains four buttons, each of which builds the corresponding page and opens it in your default browser.
+
+![worksheet 'Build'](img/sheet-build.png)
 
 | Button | Output |
 |---|---|
@@ -71,8 +73,8 @@ Re-run the relevant button(s) on the control sheet to regenerate the pages after
 
 #### Important Notice
 
-The various sheets contain custom formulas that are bound to VBA code, which makes API calls using your credentials (from `credentials.txt`). Some of these API calls are slow-performing. Re-calculating all formulas on the sheet and thusly re-running all API calls might take a long time. Also and the publically available free-to-use have daily usage limits and might block you for the rest of the day when you make too many calls (in the case that formulas no longer work, try again the next day!).<br><br>
-Therefore it is advisable, that once you made some calls, to convert the formula-based cell contents to fixed-value cell contents. A custon shortcut for that purpose is available. Simply **press F11** and the formula of any cell will be replaced with the calculated value and thusly prevent further API calls for that cell.<br>
+The various sheets contain custom formulas that are bound to VBA code, which makes API calls using your credentials (from `credentials.txt`). Some of these API calls are slow-performing. Re-calculating all formulas on the sheet and thusly re-running all API calls might take a long time. Also the publicly available free-to-use APIs have daily usage limits and might block you for the rest of the day when you make too many calls (in the case that formulas no longer work, try again the next day!).<br><br>
+Therefore it is advisable, that once you made some calls using **custom** formulas (e.g. `=GetCountryPopulation(...)`), to convert the formula-based cell contents to fixed-value cell contents. A custon shortcut for that purpose is available. Simply **press F11** and the formula of any cell will be replaced with the calculated value and thusly prevent further API calls for that cell.<br>
 
 *This works on a single cell AND on multiple cells at the same time!*<br><br>
 
@@ -80,6 +82,8 @@ Therefore it is advisable, that once you made some calls, to convert the formula
 #### Table Cities
 
 The sheet `Cities` contains a table with all the cities visited (each entry equals one unique city).
+
+![worksheet 'Cities'](img/sheet-cities.png)
 
 | Column | Meaning |
 |---|---|
@@ -99,6 +103,8 @@ The sheet `Cities` contains a table with all the cities visited (each entry equa
 The sheet `Countries` contains a pre-populated list of most sovereign countries and partially recognized territories (such as Western Sahara) as well as relevant overseas territories (such as Gibraltar).<br>
 
 The table comes fully populated and doesn't have to be touched at all. However, you can extend the table should there be some territories visited missing, find a complete list of all ISO alpha-2 codes here: [Officially assigned code elements](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements)
+
+![worksheet 'Countries'](img/sheet-countries.png)
 
 | Column | Meaning |
 |---|---|
@@ -122,6 +128,8 @@ The sheet `Trips` is the place where the visits and their details are specified.
 
 *Each row contains one city, NOT one trip!*
 
+![worksheet 'Trips'](img/sheet-trips.png)
+
 | Column | Meaning |
 |---|---|
 | Year | Year the trip took place. |
@@ -140,6 +148,8 @@ The sheet `Trips` is the place where the visits and their details are specified.
 The sheet `By Year` is the basis for the pages `Dashboard` as well as `Visits By Years`.<br>
 Here you only need to define what years to track, the entire rest will be auto-filled according to the data coming from other sheets.
 
+![worksheet 'By Year'](img/sheet-by-year.png)
+
 | Column | Meaning |
 |---|---|
 | Year | Year to track — define yourself. |
@@ -156,6 +166,8 @@ Here you only need to define what years to track, the entire rest will be auto-f
 The sheet `Airports` holds all airports you've ever flown in or out of. One row equals one airport.<br>
 
 *All columns except for `IATA Code` are auto-filled!*
+
+![worksheet 'airports'](img/sheet-airports.png)
 
 | Column | Meaning |
 |---|---|
@@ -174,6 +186,8 @@ The sheet `Airports` holds all airports you've ever flown in or out of. One row 
 #### Table Flights
 
 The sheet `Flights` contains a list of all past flights taken and is the basis for the aviation map.
+
+![worksheet 'Flights'](img/sheet-flights.png)
 
 | Column | Meaning |
 |---|---|
@@ -198,6 +212,8 @@ The sheet `Flights` contains a list of all past flights taken and is the basis f
 The sheet `Airlines` contains information about airlines operating past flights taken. 
 
 *As of now, all columns have to be filled manually.*
+
+![worksheet 'Airlines'](img/sheet-airlines.png)
 
 | Column | Meaning |
 |---|---|
